@@ -10,7 +10,7 @@ console.log(lstorage.set('show', {title: 'Game of Thrones', seasons: 5}, 60*60*2
 console.log(lstorage.get('show')); // {title: 'Game of Thrones', seasons: 5}
 console.log(lstroage.getAll()); // ['dog, {title: 'Game of Thrones', seasons: 5}]
 console.log(lstorage.remove('animal')); // true
-console.log(lstorage.clear()); // 1
+console.log(lstorage.clear()); // 2
 ```
 
 ## storageManager constructor
