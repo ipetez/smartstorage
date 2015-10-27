@@ -5,7 +5,7 @@
  * @author Ike Peters
  */
 
-'use strict'
+'use strict';
 
 /**
 * creates new instance of the storage manager
@@ -85,9 +85,26 @@ function storageManager() {
 			throw "Not an object"; // throw err when key is not an object
 		}
 	};
+
+	/**
+	* Clears all localstorage items
+	* @method clear
+	*/
     this.clear = function() {
         var len = ls.length;
         ls.clear();
         return len;
+    };
+
+	/**
+	* Display an array of all localstorage items
+	* @method getAll
+	*/
+    this.getAll = function() {
+    	var allKeys = [];
+		for ( var i = 0, len = ls.length; i < len; i++ ) {
+		  allKeys.push( this.get( ls.key(i) ) );
+		}
+		return allKeys.length ? allKeys : null;
     };
 };
