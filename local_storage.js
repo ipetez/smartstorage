@@ -33,7 +33,6 @@ function storageManager() {
 	    } catch(e) {
 	    	item = ls.getItem(key)
 	    }
-	    console.log(item);
 	    return item; // return the key
 	};
 
@@ -60,7 +59,7 @@ function storageManager() {
             ls.removeItem(key);
         }
         var removedStorage = this.get(key);
-        console.log(removedStorage === undefined || removedStorage === null);
+        return removedStorage === undefined || removedStorage === null;
 	};
 
 	/**
@@ -107,4 +106,20 @@ function storageManager() {
 		}
 		return allKeys.length ? allKeys : null;
     };
+
+	/**
+	* Returns the number count of total keys
+	* @method size
+	*/
+    this.size = function() {
+    	return this.getAll().length;
+    }
+
+	/**
+	* Returns true or false
+	* @method key
+	*/
+    this.has = function(key) {
+    	return this.get(key) !== null;
+    }
 };
