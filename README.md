@@ -7,10 +7,12 @@ An HTML5 localStorage helper library that extends the native localStorage API th
 var lstorage = getStorageManager(); // creates new instance of the storageManager class 
 console.log(lstorage.set('animal', 'dog', 60)); // 'dog' (that expires in 60 seconds)
 console.log(lstorage.set('show', {title: 'Game of Thrones', seasons: 5}, 60*60*24)); // returns {title: 'Game of Thrones', seasons: 5} that expires in 24 hours
+console.log(lstorage.size()); // 2
+console.log(lstorage.has('animal')) // returns true
 console.log(lstorage.get('show')); // {title: 'Game of Thrones', seasons: 5}
 console.log(lstroage.getAll()); // ['dog, {title: 'Game of Thrones', seasons: 5}]
 console.log(lstorage.remove('animal')); // true
-console.log(lstorage.clear()); // 2
+console.log(lstorage.clear()); // 2 (number of items cleared)
 ```
 
 ## storageManager constructor
@@ -30,6 +32,14 @@ Extends the native `window.localStorage.setItem()` method allowing for object an
 #### `storageManager.remove(key)`
 
 Extends the native `window.localStorage.remove()` method allowing for deletion based on index number as well. Returns true if the key was found before deletion, false if not.
+
+#### `storageManager.size()`
+
+Returns the number of keys stored in `window.localStorage`.
+
+#### `storageManager.has(key)`
+
+Returns either true or false depending on if the key exists.
 
 #### `storageManager.setProperty(key, property, value, expiry)`
 
