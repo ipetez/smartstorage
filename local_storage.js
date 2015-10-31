@@ -117,7 +117,10 @@
 	    	return this.get(key) !== null;
 	    }
 	};
-    
-    window.storageManager = storageManager;
+
+	// Assign our storageManager object to global window object.
+    if (!window.storageManager) {
+    	window.storageManager = storageManager;
+    }
 
 })(window);
