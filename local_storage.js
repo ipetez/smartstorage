@@ -21,12 +21,13 @@
 	*/
 	StorageManager.prototype.get = function(key) {
 		var item;
-	    try {
-	    	item = JSON.parse(ls.getItem(key))
-	    } catch(e) {
-	    	item = ls.getItem(key)
-	    }
-	    return item; // return the key
+    try {
+    	item = JSON.parse(ls.getItem(key))
+    } 
+    catch(e) {
+    	item = ls.getItem(key)
+    }
+    return item; // return the key
 	};
 
 	/**
@@ -38,8 +39,8 @@
 	*/
 	StorageManager.prototype.set = function(key,val,expiry) {
 		var expires = new Date().getTime()+(expiry*1000); // expiry in seconds
-	    ls.setItem(key,JSON.stringify(val),expires);
-	    return this.get(key);
+	  ls.setItem(key,JSON.stringify(val),expires);
+	  return this.get(key);
 	};
 
 	/**
@@ -48,11 +49,11 @@
 	* @param key
 	*/
 	StorageManager.prototype.remove = function(key) {
-        if (key in ls) {
-            ls.removeItem(key);
-        }
-        var removedStorage = this.get(key);
-        return removedStorage === undefined || removedStorage === null;
+	  if (key in ls) {
+	    ls.removeItem(key);
+	  }
+	  var removedStorage = this.get(key);
+	  return removedStorage === undefined || removedStorage === null;
 	};
 
 	/**
@@ -69,7 +70,7 @@
 		if (typeof item === 'object' && item !== null) {
 			item[property] = value;
 			ls.setItem(key, JSON.stringify(item), expires);
-		} else if(item === undefined) { // create a new key if not found
+		} else if (item === undefined) { // create a new key if not found
 			var newObject = {};
 			newObject[property] = value;
 			this.set(key, newObject, expires);
@@ -83,9 +84,9 @@
 	* @method clear
 	*/
   StorageManager.prototype.clear = function() {
-      var len = ls.length;
-      ls.clear();
-      return len;
+	  var len = ls.length;
+	  ls.clear();
+	  return len;
   };
 
 	/**
@@ -94,10 +95,10 @@
 	*/
   StorageManager.prototype.getAll = function() {
   	var allKeys = [];
-	for ( var i = 0, len = ls.length; i < len; i++ ) {
-	  allKeys.push( this.get( ls.key(i) ) );
-	}
-	return allKeys.length ? allKeys : null;
+		for ( var i = 0, len = ls.length; i < len; i++ ) {
+		  allKeys.push( this.get( ls.key(i) ) );
+		}
+		return allKeys.length ? allKeys : null;
   };
 
 	/**
