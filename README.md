@@ -20,7 +20,7 @@ var lstorage = new StorageManager();
 Extends the native `window.localStorage.setItem()` method allowing for object and array saving, plus returning the saved element.
 
 ```js
-lstorage.set('animal', {type: 'Dog'}, 60) // stores and returns {type: 'Dog'} (that expires in 60 seconds)
+lstorage.set('animal', {type: 'Dog'}, 60); // stores and returns {type: 'Dog'} (that expires in 60 seconds)
 ```
 
 #### `StorageManager.get(key)`
@@ -28,7 +28,7 @@ lstorage.set('animal', {type: 'Dog'}, 60) // stores and returns {type: 'Dog'} (t
 Extends the native `window.localStorage.getItem()` method allowing for object and array retrieving.
 
 ```js
-lstorage.get('animal') // returns {type: 'Dog'}
+lstorage.get('animal'); // returns {type: 'Dog'}
 ```
 
 #### `StorageManager.setBulk(obj)`
@@ -40,8 +40,9 @@ var things = {
   color: "blue",
   language: "Javascript",
   groceries: { ketchup: 3.00, lettuce: 6.00 }
-}
-lstorage.setBulk(things) // equivalent to setting each local storage key to corresponding value individually
+};
+
+lstorage.setBulk(things); // equivalent to setting each local storage key to corresponding value individually
 ```
 
 #### `StorageManager.isEmpty()`
@@ -50,10 +51,10 @@ Returns a true or false depending on if any key-value pairs are found in local s
 
 ```js
 lstorage.set('name', 'john', 60*60);
-lstorage.isEmpty() // returns false
+lstorage.isEmpty(); // returns false
 
-ls.clear() // clears localStorage
-ls.isEmpty() // returns true
+ls.clear(); // clears localStorage
+ls.isEmpty(); // returns true
 ```
 
 #### `StorageManager.getKeys()`
@@ -65,10 +66,11 @@ var things = {
   color: "blue",
   language: "Javascript",
   groceries: { ketchup: 3.00, lettuce: 6.00 }
-}
-lstorage.setBulk(things)
+};
 
-lstorage.getKeys() // returns ['color', 'language', 'groceries'];
+lstorage.setBulk(things);
+
+lstorage.getKeys(); // returns ['color', 'language', 'groceries'];
 ```
 
 #### `StorageManager.getAll()`
@@ -80,10 +82,11 @@ var things = {
   color: "blue",
   language: "Javascript",
   groceries: { ketchup: 3.00, lettuce: 6.00 }
-}
-lstorage.setBulk(things)
+};
 
-lstorage.getAll() // returns ['blue', 'Javascript', { ketchup: 3.00, lettuce: 6.00 }];
+lstorage.setBulk(things);
+
+lstorage.getAll(); // returns ['blue', 'Javascript', { ketchup: 3.00, lettuce: 6.00 }];
 ```
 
 #### `StorageManager.toObject()`
@@ -95,10 +98,11 @@ var things = {
   color: "blue",
   language: "Javascript",
   groceries: { ketchup: 3.00, lettuce: 6.00 }
-}
-lstorage.setBulk(things)
+};
 
-lstorage.toObject() // { color: "blue", language: "Javascript", groceries: { ketchup: 3.00, lettuce: 6.00 }}
+lstorage.setBulk(things);
+
+lstorage.toObject(); // { color: "blue", language: "Javascript", groceries: { ketchup: 3.00, lettuce: 6.00 }}
 ```
 
 #### `StorageManager.remove(key)`
@@ -107,7 +111,7 @@ Extends the native `window.localStorage.remove()` method allowing for deletion b
 
 ```js
 lstorage.set('name', 'Joe');
-lstorage.remove('name') // removes 'name' item in localStorage
+lstorage.remove('name'); // removes 'name' item in localStorage
 ```
 
 #### `StorageManager.size()`
@@ -116,7 +120,7 @@ Returns the number of keys stored in `window.localStorage`.
 
 ```js
 lstorage.set('name', 'Joe');
-lstorage.size() // 1
+lstorage.size(); // 1
 ```
 
 #### `StorageManager.has(key)`
@@ -131,7 +135,7 @@ Updates an existing localStorage Key if it exists by updating the property value
 var car = {
   make: "Honda",
   model: "Accord"
-}
+};
   
 lstorage.set('vehicle', car);
 lstorage.setProperty('vehicle', 'model', 'civic', 3600); // updates the 'vehicle' key-value object from a model of Accord to Civic
