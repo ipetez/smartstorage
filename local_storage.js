@@ -5,13 +5,65 @@
  * @author Ike Peters
  */
 
-/**
-* Storage manager function constructor
-* @contstructor
-*/
 (function(window) {
 	'use strict';
-	var ls = window.localStorage;
+
+  // Inital check to see if localStorage is supported in the browser
+  (function() {
+    var supported;
+
+    // Attempting to save item in localstorage to check for support
+    try {
+      localStorage.setItem('testing', 'testing value');
+      localStorage.removeItem('testing');
+      supported = true;
+    } catch(e) {
+      supported = false;
+    }
+
+    // Polyfill in case localstorage is not supported
+    // From https://developer.mozilla.org/en-US/docs/Web/Guide/DOM/Storage?redirectlocale=en-US&redirectslug=DOM%2FStorage
+    if(!supported) {
+      window.localStorage = {
+        getItem: function (sKey) {
+          if (!sKey || !this.hasOwnProperty(sKey)) { return null; }
+          return unescape(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + escape(sKey).replace(/[\-\.\+\*]/g, "\\$&") +
+            "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"), "$1"));
+        },
+
+        key: function (nKeyId) {
+          return unescape(document.cookie.replace(/\s*\=(?:.(?!;))*$/, "").split(/\s*\=(?:[^;](?!;))*[^;]?;\s*/)[nKeyId]);
+        },
+
+        setItem: function (sKey, sValue) {
+          if(!sKey) { return; }
+          document.cookie = escape(sKey) + "=" + escape(sValue) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
+          this.length = document.cookie.match(/\=/g).length;
+        },
+
+        length: 0,
+
+        removeItem: function (sKey) {
+          if (!sKey || !this.hasOwnProperty(sKey)) { return; }
+          document.cookie = escape(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+          this.length--;
+        },
+
+        hasOwnProperty: function (sKey) {
+          return (new RegExp("(?:^|;\\s*)" + escape(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+        }
+      };
+
+      window.localStorage.length = (document.cookie.match(/\=/g) || window.localStorage).length;
+    }
+  })();
+
+  var ls = window.localStorage;
+
+	/**
+	* Storage manager function constructor
+	* @contstructor
+	*/
 	var StorageManager = function() {};
 
 	/**
@@ -110,13 +162,20 @@
   }
 
 	/**
-	* Returns true or false
-	* @method key
+	* Returns true or false if key is found or not
+	* @method has
+	* @param key
 	*/
   StorageManager.prototype.has = function(key) {
   	return this.get(key) !== null;
   }
 
+	/**
+	* Takes in an object and executes a bulk store of key-value pairs
+	* @method setBulk
+	* @param object
+	* @param expiry
+	*/
   StorageManager.prototype.setBulk = function(obj, exp) {
   	var keys = Object.keys(obj),
   			len = keys.length,
@@ -127,10 +186,18 @@
   	}
   }
 
+	/**
+	* Returns true or false if localStorage is empty or not
+	* @method isEmpty
+	*/
   StorageManager.prototype.isEmpty = function() {
   	return this.size() === 0;
   }
 
+	/**
+	* Returns an array of all localStorage keys
+	* @method getKeys
+	*/
   StorageManager.prototype.getKeys = function() {
   	var result = [], len = ls.length, i;
 
@@ -140,6 +207,10 @@
   	return result;
   }
 
+	/**
+	* Returns an object representation of current window.localStorage key-value pairs.
+	* @method toObject
+	*/
   StorageManager.prototype.toObject = function() {
     var obj = {},
 				keys = this.getKeys(),
