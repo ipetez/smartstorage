@@ -117,6 +117,42 @@
   	return this.get(key) !== null;
   }
 
+  StorageManager.prototype.setBulk = function(obj, exp) {
+  	var keys = Object.keys(obj),
+  			len = keys.length,
+  			i;
+
+  	for (i = 0; i < len; i++) {
+  		this.set(keys[i], obj[keys[i]], exp);
+  	}
+  }
+
+  StorageManager.prototype.isEmpty = function() {
+  	return this.size() === 0;
+  }
+
+  StorageManager.prototype.getKeys = function() {
+  	var result = [], len = ls.length, i;
+
+  	for (i = 0; i < len; i++) {
+  		result.push(ls.key(i));
+  	}
+  	return result;
+  }
+
+  StorageManager.prototype.toObject = function() {
+    var obj = {},
+				keys = this.getKeys(),
+				len = keys.length,
+				i;
+
+    for (i = 0; i < len; i++) {
+      obj[keys[i]] = this.get(keys[i]);
+    }
+
+    return obj;
+  }
+
 	// Assign our storageManager object to global window object.
   if (!window.StorageManager) {
   	window.StorageManager = StorageManager;
