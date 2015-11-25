@@ -1,6 +1,6 @@
 # smart-localStorage
 
-An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application, with callback support. This library also includes support for older browsers that don't natively support the localStorage API.
+An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application, with built-in callback support. This library also includes support for older browsers that don't natively support the localStorage API.
 
 
 ## storageManager constructor
@@ -20,7 +20,7 @@ var lstorage = new StorageManager();
 Extends the native `window.localStorage.setItem()` method allowing for object and array saving, plus returning the saved element.
 
 ```js
-lstorage.set('animal', {type: 'Dog'}, 60); // stores and returns {type: 'Dog'} (that expires in 60 seconds)
+lstorage.set('animal', {type: 'dog'}, 60); // stores and returns {type: 'dog'} (that expires in 60 seconds)
 ```
 
 #### `StorageManager.get(key)`
@@ -28,7 +28,13 @@ lstorage.set('animal', {type: 'Dog'}, 60); // stores and returns {type: 'Dog'} (
 Extends the native `window.localStorage.getItem()` method allowing for object and array retrieving.
 
 ```js
-lstorage.get('animal'); // returns {type: 'Dog'}
+lstorage.get('animal'); // returns {type: 'dog'}
+```
+or with a callback
+```js
+lstorage.get('animal', function(value) {
+  return `My favorite animal is a ${value.type}`; // returns "My favorite animal is a dog"
+});
 ```
 
 #### `StorageManager.setBulk(obj)`
@@ -55,6 +61,12 @@ lstorage.isEmpty(); // returns false
 
 ls.clear(); // clears localStorage
 ls.isEmpty(); // returns true
+```
+or with a callback
+```js
+lstorage.isEmpty(function(isEmpty) {
+  return `LocalStorage is currently empty: ${isEmpty}`;
+});
 ```
 
 #### `StorageManager.getKeys()`
@@ -88,6 +100,12 @@ lstorage.setBulk(things);
 
 lstorage.getAll(); // returns ['blue', 'Javascript', { ketchup: 3.00, lettuce: 6.00 }];
 ```
+or with a callback
+```js
+lstorage.getAll(function(result) {
+  // Do something with the result
+});
+```
 
 #### `StorageManager.toObject()`
 
@@ -103,6 +121,15 @@ var things = {
 lstorage.setBulk(things);
 
 lstorage.toObject(); // { color: "blue", language: "Javascript", groceries: { ketchup: 3.00, lettuce: 6.00 }}
+```
+or with a callback
+```js
+lstorage.toObject(function(obj) {
+  // use the data in how you want
+  for (key in obj) {
+    // loop through
+  }
+});
 ```
 
 #### `StorageManager.remove(key)`
@@ -126,6 +153,13 @@ lstorage.size(); // 1
 #### `StorageManager.has(key)`
 
 Returns either true or false depending on if the key exists.
+
+or with a callback
+```js
+lstorage.has('someKey',function(exists) {
+  return `This key exists: ${exists}`;
+});
+```
 
 #### `StorageManager.setProperty(key, property, value, expiry)`
 
