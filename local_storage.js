@@ -70,16 +70,28 @@
 	* retrieve a localstorage key
 	* @method get {value}
 	* @param key
+	* @param callback (optional)
 	*/
 	StorageManager.prototype.get = function(key) {
-		var item;
+		var item, callback = null;
+
     try {
-    	item = JSON.parse(ls.getItem(key))
+    	item = JSON.parse(ls.getItem(key));
     } 
     catch(e) {
-    	item = ls.getItem(key)
+    	item = ls.getItem(key);
     }
-    return item; // return the key
+
+    if (arguments.length === 1) {
+    	return item; // return the key
+    }
+    else if (arguments.length === 2 && arguments[1] instanceof Function) {
+    	callback = arguments[1];
+    	callback(item);
+    }
+    else {
+    	throw "Improper arguments";
+    }
 	};
 
 	/**
@@ -88,24 +100,49 @@
 	* @param key
 	* @param val
 	* @param expiry
+	* @param callback (optional)
 	*/
 	StorageManager.prototype.set = function(key,val,expiry) {
+		var savedEntry, callback = null;
+
 		var expires = new Date().getTime()+(expiry*1000); // expiry in seconds
 	  ls.setItem(key,JSON.stringify(val),expires);
-	  return this.get(key);
+	  savedEntry = this.get(key);
+
+	  if (arguments.length === 4 && arguments[3] instanceof Function) {
+	  	callback = arguments[3];
+	  	callback(savedEntry);
+	  }
+	  else {
+	  	return savedEntry;
+	  }
 	};
 
 	/**
 	* Removing a key from localStorage
 	* @method remove
 	* @param key
+	* @param callback (optional)
 	*/
 	StorageManager.prototype.remove = function(key) {
-	  if (key in ls) {
-	    ls.removeItem(key);
-	  }
-	  var removedStorage = this.get(key);
-	  return removedStorage === undefined || removedStorage === null;
+		var callback = null;
+
+		if (arguments.length === 2 && arguments[1] instanceof Function) {
+			callback = arguments[1];
+		}
+
+		try {
+		  if (key in ls) {
+		    ls.removeItem(key);
+		    if (callback === null) {
+		    	return key;
+		    }
+		    callback(key);
+		  }
+		}
+		catch(e) {
+			throw e;
+		}
 	};
 
 	/**
@@ -115,59 +152,114 @@
 	* @param property
 	* @param value
 	* @param expiry
+	* @param callback (optional)
 	*/
 	StorageManager.prototype.setProperty = function(key, property, value, expiry) {
 		var item = this.get(key);
+		var callback = null;
 		var expires = new Date().getTime()+(expiry*1000);
 		if (typeof item === 'object' && item !== null) {
 			item[property] = value;
 			ls.setItem(key, JSON.stringify(item), expires);
-		} else if (item === undefined) { // create a new key if not found
+		} 
+		else if (item === undefined) { // create a new key if not found
 			var newObject = {};
 			newObject[property] = value;
 			this.set(key, newObject, expires);
-		} else {
+		} 
+		else {
 			throw "Not an object"; // throw err when key is not an object
+		}
+
+		if (arguments.length === 5 && arguments[4] instanceof Function) {
+			callback = arguments[4];
+		}
+		else if (arguments.length == 4 && arguments[3] instanceof Function) {
+			callback = arguments[3];
+		}
+		else if (arguments.length < 3) {
+			throw "Improper amount of arguments";
 		}
 	};
 
 	/**
 	* Clears all localstorage items
 	* @method clear
+	* @param callback (optional)
 	*/
   StorageManager.prototype.clear = function() {
+  	var callback = null;
 	  var len = ls.length;
+	  
 	  ls.clear();
-	  return len;
+
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(len);
+  	}
+  	else {
+			return len;
+  	}
   };
 
 	/**
 	* Display an array of all localstorage items
 	* @method getAll
+	* @param callback (optional)
 	*/
   StorageManager.prototype.getAll = function() {
+  	var callback = null;
   	var allKeys = [];
 		for ( var i = 0, len = ls.length; i < len; i++ ) {
 		  allKeys.push( this.get( ls.key(i) ) );
 		}
-		return allKeys.length ? allKeys : null;
+		var result =  allKeys.length ? allKeys : null;
+
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(result);
+  	}
+  	else {
+			return result;
+  	}
   };
 
 	/**
 	* Returns the number count of total keys
 	* @method size
+	* @param callback (optional)
 	*/
   StorageManager.prototype.size = function() {
-  	return this.getAll().length;
+  	var len = this.getAll().length;
+  	var callback = null;
+
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(len);
+  	}
+  	else {
+  		return len;
+  	}
   }
 
 	/**
 	* Returns true or false if key is found or not
 	* @method has
 	* @param key
+	* @param callback (optional)
 	*/
   StorageManager.prototype.has = function(key) {
-  	return this.get(key) !== null;
+  	var exists = this.get(key) !== null;
+  	var callback = null;
+
+  	if (arguments.length === 2 && arguments[1] instanceof Function) {
+  		callback = arguments[1];
+  		callback(exists);
+  	}
+  	else {
+			return exists;
+  	}
+
   }
 
 	/**
@@ -175,8 +267,10 @@
 	* @method setBulk
 	* @param object
 	* @param expiry
+	* @param callback (optional)
 	*/
   StorageManager.prototype.setBulk = function(obj, exp) {
+  	var callback = null;
   	var keys = Object.keys(obj),
   			len = keys.length,
   			i;
@@ -184,44 +278,82 @@
   	for (i = 0; i < len; i++) {
   		this.set(keys[i], obj[keys[i]], exp);
   	}
+
+  	if (arguments.length === 3 && arguments[2] instanceof Function) {
+  		callback = arguments[2];
+  		callback();
+  	}
+  	else if (arguments.length === 2 && arguments[1] instanceof Function) {
+  		callback = arguments[1];
+  		callback();
+  	}
+  	else if (arguments.length < 1) {
+  		throw "Improper amount of arguments";
+  	}
   }
 
 	/**
 	* Returns true or false if localStorage is empty or not
 	* @method isEmpty
+	* @param callback (optional)
 	*/
   StorageManager.prototype.isEmpty = function() {
-  	return this.size() === 0;
+  	var isEmpty = this.size() === 0;
+  	var callback = null;
+
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(isEmpty);
+  	}
+  	else {
+			return isEmpty;
+  	}
   }
 
 	/**
 	* Returns an array of all localStorage keys
 	* @method getKeys
+	* @param callback (optional)
 	*/
   StorageManager.prototype.getKeys = function() {
-  	var result = [], len = ls.length, i;
+  	var result = [], len = ls.length, i, callback = null;
 
   	for (i = 0; i < len; i++) {
   		result.push(ls.key(i));
   	}
-  	return result;
+
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(result);
+  	}
+  	else {
+			return result;
+  	}
   }
 
 	/**
 	* Returns an object representation of current window.localStorage key-value pairs.
 	* @method toObject
+	* @param callback (optional)
 	*/
   StorageManager.prototype.toObject = function() {
     var obj = {},
 				keys = this.getKeys(),
 				len = keys.length,
-				i;
+				i,
+				callback = null;
 
     for (i = 0; i < len; i++) {
       obj[keys[i]] = this.get(keys[i]);
     }
 
-    return obj;
+  	if (arguments.length === 1 && arguments[0] instanceof Function) {
+  		callback = arguments[0];
+  		callback(obj);
+  	}
+  	else {
+			return obj;
+  	}
   }
 
 	// Assign our storageManager object to global window object.
