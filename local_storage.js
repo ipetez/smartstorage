@@ -240,7 +240,7 @@
   	else {
   		return len;
   	}
-  }
+  };
 
 	/**
 	* Returns true or false if key is found or not
@@ -260,7 +260,7 @@
 			return exists;
   	}
 
-  }
+  };
 
 	/**
 	* Takes in an object and executes a bulk store of key-value pairs
@@ -290,7 +290,7 @@
   	else if (arguments.length < 1) {
   		throw "Improper amount of arguments";
   	}
-  }
+  };
 
 	/**
 	* Returns true or false if localStorage is empty or not
@@ -308,7 +308,7 @@
   	else {
 			return isEmpty;
   	}
-  }
+  };
 
 	/**
 	* Returns an array of all localStorage keys
@@ -329,7 +329,7 @@
   	else {
 			return result;
   	}
-  }
+  };
 
 	/**
 	* Returns an object representation of current window.localStorage key-value pairs.
@@ -354,11 +354,21 @@
   	else {
 			return obj;
   	}
-  }
+  };
 
-	// Assign our storageManager object to global window object.
-  if (!window.StorageManager) {
-  	window.StorageManager = StorageManager;
-  }
+	// AMD, CommonJS and global support
+	if (typeof define === 'function' && define.amd) {
+	  define(function () {
+	     return StorageManager;
+	  });
+	} 
+	else if (typeof exports !== 'undefined') {
+	  module.exports = StorageManager;
+	} 
+	else {
+		if (!window.StorageManager) {
+			window.StorageManager = StorageManager;
+		};
+	};
 
 })(window);
