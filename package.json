@@ -1,0 +1,25 @@
+{
+  "name": "localstorage-helper",
+  "version": "1.0.0",
+  "description": "An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application. This library also includes built in error handling.",
+  "main": "local_storage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ipeters90/Javascript-localStorage-helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipeters90/Javascript-localStorage-helper/issues"
+  },
+  "homepage": "https://github.com/ipeters90/Javascript-localStorage-helper",
+  "devDependencies": {
+    "babel-core": "6.4.0",
+    "babel-loader": "6.2.1",
+    "webpack": "1.12.10"
+  }
+}
