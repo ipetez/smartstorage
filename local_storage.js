@@ -1,6 +1,6 @@
 /**
  * An HTML5 LocalStorage helper library. 
- * https://github.com/ipeters90/javascript-localstorage-helper/
+ * https://github.com/ipeters90/smart-localStorage
  * 
  * @author Ike Peters
  */
@@ -64,7 +64,7 @@
 	* Storage manager function constructor
 	* @contstructor
 	*/
-	var StorageManager = function() {};
+	var SmartStorage = function() {};
 
 	/**
 	* retrieve a localstorage key
@@ -72,7 +72,7 @@
 	* @param key
 	* @param callback (optional)
 	*/
-	StorageManager.prototype.get = function(key) {
+	SmartStorage.prototype.get = function(key) {
 		var item, callback = null;
 
     try {
@@ -102,7 +102,7 @@
 	* @param expiry
 	* @param callback (optional)
 	*/
-	StorageManager.prototype.set = function(key,val,expiry) {
+	SmartStorage.prototype.set = function(key,val,expiry) {
 		var savedEntry, callback = null;
 
 		var expires = new Date().getTime()+(expiry*1000); // expiry in seconds
@@ -114,7 +114,7 @@
 	  	callback(savedEntry);
 	  }
 	  else {
-	  	return savedEntry;
+	  	return this;
 	  }
 	};
 
@@ -124,7 +124,7 @@
 	* @param key
 	* @param callback (optional)
 	*/
-	StorageManager.prototype.remove = function(key) {
+	SmartStorage.prototype.remove = function(key) {
 		var callback = null;
 
 		if (arguments.length === 2 && arguments[1] instanceof Function) {
@@ -154,18 +154,20 @@
 	* @param expiry
 	* @param callback (optional)
 	*/
-	StorageManager.prototype.setProperty = function(key, property, value, expiry) {
+	SmartStorage.prototype.setProperty = function(key, property, value, expiry) {
 		var item = this.get(key);
 		var callback = null;
 		var expires = new Date().getTime()+(expiry*1000);
 		if (typeof item === 'object' && item !== null) {
 			item[property] = value;
 			ls.setItem(key, JSON.stringify(item), expires);
+			return this;
 		} 
 		else if (item === undefined) { // create a new key if not found
 			var newObject = {};
 			newObject[property] = value;
 			this.set(key, newObject, expires);
+			return this;
 		} 
 		else {
 			throw "Not an object"; // throw err when key is not an object
@@ -180,6 +182,7 @@
 		else if (arguments.length < 3) {
 			throw "Improper amount of arguments";
 		}
+		callback();
 	};
 
 	/**
@@ -187,7 +190,7 @@
 	* @method clear
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.clear = function() {
+  SmartStorage.prototype.clear = function() {
   	var callback = null;
 	  var len = ls.length;
 	  
@@ -198,7 +201,7 @@
   		callback(len);
   	}
   	else {
-			return len;
+			return this;
   	}
   };
 
@@ -207,7 +210,7 @@
 	* @method getAll
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.getAll = function() {
+  SmartStorage.prototype.getAll = function() {
   	var callback = null;
   	var allKeys = [];
 		for ( var i = 0, len = ls.length; i < len; i++ ) {
@@ -229,7 +232,7 @@
 	* @method size
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.size = function() {
+  SmartStorage.prototype.size = function() {
   	var len = this.getAll().length;
   	var callback = null;
 
@@ -248,7 +251,7 @@
 	* @param key
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.has = function(key) {
+  SmartStorage.prototype.has = function(key) {
   	var exists = this.get(key) !== null;
   	var callback = null;
 
@@ -269,7 +272,7 @@
 	* @param expiry
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.setBulk = function(obj, exp) {
+  SmartStorage.prototype.setBulk = function(obj, exp) {
   	var callback = null;
   	var keys = Object.keys(obj),
   			len = keys.length,
@@ -297,7 +300,7 @@
 	* @method isEmpty
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.isEmpty = function() {
+  SmartStorage.prototype.isEmpty = function() {
   	var isEmpty = this.size() === 0;
   	var callback = null;
 
@@ -315,7 +318,7 @@
 	* @method getKeys
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.getKeys = function() {
+  SmartStorage.prototype.getKeys = function() {
   	var result = [], len = ls.length, i, callback = null;
 
   	for (i = 0; i < len; i++) {
@@ -336,7 +339,7 @@
 	* @method toObject
 	* @param callback (optional)
 	*/
-  StorageManager.prototype.toObject = function() {
+  SmartStorage.prototype.toObject = function() {
     var obj = {},
 				keys = this.getKeys(),
 				len = keys.length,
@@ -356,18 +359,65 @@
   	}
   };
 
+	/**
+	* Allows you to push to an array stored in localstorage.
+	* @method pushTo
+	* @param arr (the localstorage key to look up array)
+	* @param item (item or array we're pushing to stored array)
+	*/
+  SmartStorage.prototype.pushTo = function(arr, item) {
+  	var newArr;
+  	try {
+  		newArr = JSON.parse(this.get(arr));
+  	}
+  	catch(e) {
+  		newArr = this.get(arr);
+  	}
+  	if (Array.isArray(item)) {
+  		newArr = newArr.concat(item);
+  	}
+  	else if (typeof item === "string") {
+  		newArr.push(item);
+  	}
+  	this.set(arr, newArr);
+  	return this;
+  };
+
+	/**
+	* Allows you to extend a stored object in localstorage.
+	* @method extend
+	* @param baseObj (key to look up stored object)
+	* @param mergeObj (object being merged into baseObj)
+	*/
+	SmartStorage.prototype.extend = function(baseObj, mergeObj) {
+		var newObj;
+		try {
+			newObj = JSON.parse(this.get(baseObj));
+		}
+		catch(e) {
+			newObj = this.get(baseObj);
+		}
+		var keys = Object.keys(mergeObj);
+
+		for (var i = 0, len = keys.length; i < len; i++) {
+			newObj[keys[i]] = mergeObj[keys[i]];
+		}
+		this.set(baseObj, newObj);
+		return this;
+	};
+
 	// AMD, CommonJS and global support
 	if (typeof define === 'function' && define.amd) {
 	  define(function () {
-	     return StorageManager;
+	     return SmartStorage;
 	  });
 	} 
 	else if (typeof exports !== 'undefined') {
-	  module.exports = StorageManager;
+	  module.exports = SmartStorage;
 	} 
 	else {
-		if (!window.StorageManager) {
-			window.StorageManager = StorageManager;
+		if (!window.SmartStorage) {
+			window.SmartStorage = SmartStorage;
 		};
 	};
 

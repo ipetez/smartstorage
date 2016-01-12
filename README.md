@@ -3,19 +3,19 @@
 An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application, with built-in callback support. This library also includes support for older browsers that don't natively support the localStorage API.
 
 
-## storageManager constructor
+## SmartStorage constructor
 
 Extends the `window.localStorage` API.
 
 #### Constructor Methods
 
-First, create a  new instance of the StorageManager class
+First, create a  new instance of the SmartStorage class
 
 ```js
-var lstorage = new StorageManager();
+var lstorage = new SmartStorage();
 ```
 
-#### `StorageManager.set(key, val, expiry)`
+#### `SmartStorage.set(key, val, expiry)`
 
 Extends the native `window.localStorage.setItem()` method allowing for object and array saving, plus returning the saved element.
 
@@ -23,7 +23,7 @@ Extends the native `window.localStorage.setItem()` method allowing for object an
 lstorage.set('animal', {type: 'dog'}, 60); // stores and returns {type: 'dog'} (that expires in 60 seconds)
 ```
 
-#### `StorageManager.get(key)`
+#### `SmartStorage.get(key)`
 
 Extends the native `window.localStorage.getItem()` method allowing for object and array retrieving.
 
@@ -37,7 +37,7 @@ lstorage.get('animal', function(value) {
 });
 ```
 
-#### `StorageManager.setBulk(obj)`
+#### `SmartStorage.setBulk(obj)`
 
 Allows you to execute a bulk storage of key-value pairs in an object being passed in.
 
@@ -51,7 +51,7 @@ var things = {
 lstorage.setBulk(things); // equivalent to setting each local storage key to corresponding value individually
 ```
 
-#### `StorageManager.isEmpty()`
+#### `SmartStorage.isEmpty()`
 
 Returns a true or false depending on if any key-value pairs are found in local storage.
 
@@ -69,7 +69,7 @@ lstorage.isEmpty(function(isEmpty) {
 });
 ```
 
-#### `StorageManager.getKeys()`
+#### `SmartStorage.getKeys()`
 
 Returns an array of keys found in `window.localStorage`.
 
@@ -85,7 +85,7 @@ lstorage.setBulk(things);
 lstorage.getKeys(); // returns ['color', 'language', 'groceries'];
 ```
 
-#### `StorageManager.getAll()`
+#### `SmartStorage.getAll()`
 
 Returns an array of all values in `window.localStorage`.
 
@@ -107,7 +107,7 @@ lstorage.getAll(function(result) {
 });
 ```
 
-#### `StorageManager.toObject()`
+#### `SmartStorage.toObject()`
 
 Returns an object representation of current `window.localStorage` key-value pairs.
 
@@ -132,7 +132,7 @@ lstorage.toObject(function(obj) {
 });
 ```
 
-#### `StorageManager.remove(key)`
+#### `SmartStorage.remove(key)`
 
 Extends the native `window.localStorage.remove()` method allowing for deletion based on index number as well. Returns true if the key was found before deletion, false if not.
 
@@ -141,7 +141,7 @@ lstorage.set('name', 'Joe');
 lstorage.remove('name'); // removes 'name' item in localStorage
 ```
 
-#### `StorageManager.size()`
+#### `SmartStorage.size()`
 
 Returns the number of keys stored in `window.localStorage`.
 
@@ -150,7 +150,7 @@ lstorage.set('name', 'Joe');
 lstorage.size(); // 1
 ```
 
-#### `StorageManager.has(key)`
+#### `SmartStorage.has(key)`
 
 Returns either true or false depending on if the key exists.
 
@@ -161,9 +161,9 @@ lstorage.has('someKey',function(exists) {
 });
 ```
 
-#### `StorageManager.setProperty(key, property, value, expiry)`
+#### `SmartStorage.setProperty(key, property, value, expiry)`
 
-Updates an existing localStorage Key if it exists by updating the property value provided and also updating the expiry. If the key does not exists then it creates a new `window.localStorage` key using the `storageManager.set()` method in our constructor.
+Updates an existing localStorage Key if it exists by updating the property value provided and also updating the expiry. If the key does not exists then it creates a new `window.localStorage` key using the `SmartStorage.set()` method in our constructor.
 
 ```js
 var car = {
@@ -175,6 +175,24 @@ lstorage.set('vehicle', car);
 lstorage.setProperty('vehicle', 'model', 'civic', 3600); // updates the 'vehicle' key-value object from a model of Accord to Civic
 ```
 
-#### `StorageManager.clear()`
+#### `SmartStorage.clear()`
 
 Extends the native `window.localStorage.clear()` method returning the total of items cleared.
+
+## RequireJS
+
+You can use this library with [RequireJS](http://requirejs.org/):
+
+```javascript
+define(['SmartStorage'], function(SmartStorage) {
+    // As a callback:
+    SmartStorage.setItem('mykey', 'myvalue', console.log);
+});
+```
+
+## CommonJS
+
+
+```javascript
+var lstorage = require('smartstorage');
+```
