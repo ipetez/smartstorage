@@ -22,6 +22,10 @@ Extends the native `window.localStorage.setItem()` method allowing for object an
 ```js
 lstorage.set('animal', {type: 'dog'}, 60); // stores and returns {type: 'dog'} (that expires in 60 seconds)
 ```
+You can chain methods
+```js
+lstorage.set('name', 'john', 60*60).get('name') // Returns 'john'
+```
 
 #### `SmartStorage.get(key)`
 
@@ -49,6 +53,10 @@ var things = {
 };
 
 lstorage.setBulk(things); // equivalent to setting each local storage key to corresponding value individually
+```
+You can also chain the method
+```js
+lstorage.setBuik(things).get('animal') // returns {type: 'dog'}
 ```
 
 #### `SmartStorage.isEmpty()`
@@ -132,6 +140,28 @@ lstorage.toObject(function(obj) {
 });
 ```
 
+#### `SmartStorage.pushTo(key, item or array)`
+
+Allows you to push data (Single item or Array) to an existing Array stored in localstorage
+
+```js
+lstorage.set('names', ['John', 'Jane'];
+lstorage.pushTo('names', 'Joe');
+lstorage.get('names') // Returns updated array ['John', 'Jane', 'Joe']
+```
+
+#### `SmartStorage.extend(key, mergeObj)`
+
+Allows you to extend an existing object stored in localstorage 
+
+```js
+let extraInfo = {gender: 'M', eyeColor: 'brown'};
+
+lstorage.set('person', {name: 'Tim', age: 25};
+lstorage.extend('person', extraInfo);
+lstorage.get('person') // Returns updated object {gender: 'M', eyeColor: 'brown', gender: 'M', eyeColor: 'brown'}
+```
+
 #### `SmartStorage.remove(key)`
 
 Extends the native `window.localStorage.remove()` method allowing for deletion based on index number as well. Returns true if the key was found before deletion, false if not.
@@ -194,5 +224,5 @@ define(['SmartStorage'], function(SmartStorage) {
 
 
 ```javascript
-var lstorage = require('smartstorage');
+var lstorage = require('./local_storage');
 ```
