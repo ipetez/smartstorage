@@ -17,6 +17,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new UglifyJsPlugin({ minimize: true })
+        new UglifyJsPlugin({ minimize: true, compress: { warnings: false } })
     ]
 };
