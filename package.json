@@ -21,7 +21,9 @@
   "devDependencies": {
     "babel-core": "6.4.0",
     "babel-loader": "6.2.1",
+    "chai": "^3.4.1",
     "eslint": "^1.10.3",
+    "mocha": "^2.3.4",
     "webpack": "1.12.10"
   }
 }
