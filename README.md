@@ -228,8 +228,12 @@ var lstorage = require('./local_storage');
 ```
 
 ## Running Tests
-
+# <h4>Unit Tests </h4>
 Run unit tests powered by [Mocha](https://github.com/mochajs/mocha/) and [Chai](https://github.com/chaijs/chai/)
 
+Since the `window.localStorage` API is meant to be run in the browser, run the test but opening up `test/index.html` file in your browser and see the results.
 
-Since the `window.localStorage` API is meant to be run in the browser, run the test but opening up test/index.html in your browser and see the results.
+# <h4>Linting</h4>
+```javascript
+$ npm run lint
+```
