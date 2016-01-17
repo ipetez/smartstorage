@@ -226,3 +226,10 @@ define(['SmartStorage'], function(SmartStorage) {
 ```javascript
 var lstorage = require('./local_storage');
 ```
+
+## Running Tests
+
+Run unit tests powered by [Mocha](https://github.com/mochajs/mocha/) and [Chai](https://github.com/chaijs/chai/)
+
+
+Since the `window.localStorage` API is meant to be run in the browser, run the test but opening up test/index.html in your browser and see the results.

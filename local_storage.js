@@ -233,7 +233,7 @@
 	* @param callback (optional)
 	*/
 	SmartStorage.prototype.size = function() {
-		var len = this.getAll().length;
+		var len = this.getAll() ? this.getAll().length : 0;
 		var callback = null;
 
 		if (arguments.length === 1 && arguments[0] instanceof Function) {
