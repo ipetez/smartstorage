@@ -1,6 +1,6 @@
 /**
  * An HTML5 LocalStorage helper library. 
- * https://github.com/ipeters90/smart-localStorage
+ * https://github.com/ipeters90/smartstorage
  * 
  * @author Ike Peters
  */

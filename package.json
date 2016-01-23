@@ -1,8 +1,8 @@
 {
-  "name": "localstorage-helper",
-  "version": "1.0.0",
+  "name": "smartstorage",
+  "version": "0.1.0",
   "description": "An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application. This library also includes built in error handling.",
-  "main": "local_storage.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint local_storage.js",
@@ -10,14 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipeters90/Javascript-localStorage-helper.git"
+    "url": "https://github.com/ipeters90/smartstorage.git"
   },
   "author": "",
-  "license": "ISC",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ipeters90/smartstorage/LICENSE-MIT"
+    }
+  ],
   "bugs": {
-    "url": "https://github.com/ipeters90/Javascript-localStorage-helper/issues"
+    "url": "https://github.com/ipeters90/smartstorage/issues"
   },
-  "homepage": "https://github.com/ipeters90/Javascript-localStorage-helper",
+  "homepage": "https://github.com/ipeters90/smartstorage",
   "devDependencies": {
     "babel-core": "6.4.0",
     "babel-loader": "6.2.1",
