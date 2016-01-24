@@ -24,7 +24,9 @@ lstorage.set('animal', {type: 'dog'}, 60); // stores and returns {type: 'dog'} (
 ```
 You can chain methods
 ```js
-lstorage.set('name', 'john', 60*60).get('name') // Returns 'john'
+lstorage
+  .set('name', 'john', 60*60)
+  .get('name') // Returns 'john'
 ```
 
 #### `SmartStorage.get(key)`
@@ -56,7 +58,9 @@ lstorage.setBulk(things); // equivalent to setting each local storage key to cor
 ```
 You can also chain the method
 ```js
-lstorage.setBuik(things).get('animal') // returns {type: 'dog'}
+lstorage
+  .setBuik(things)
+  .get('animal') // returns {type: 'dog'}
 ```
 
 #### `SmartStorage.isEmpty()`
