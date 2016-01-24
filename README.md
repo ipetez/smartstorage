@@ -214,11 +214,11 @@ lstorage.setProperty('vehicle', 'model', 'civic', 3600); // updates the 'vehicle
 Extends the native `window.localStorage.clear()` method returning the total of items cleared.
 
 ## Installation
-#### Via [Bower][http://bower.io/]
+#### Via [Bower](http://bower.io/)
 ```javascript
 $ bower install smartstorage
 ```
-#### Via [NPM][https://www.npmjs.com/]
+#### Via [NPM](https://www.npmjs.com/)
 ```javascript
 $ npm install smartstorage
 ```
