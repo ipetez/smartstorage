@@ -2,10 +2,10 @@ var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 module.exports = {
-    entry: './smartstorage.js',
+    entry: './lib/smartstorage.js',
     output: {
         path: __dirname,
-        filename: 'smartstorage.min.js'
+        filename: 'lib/smartstorage.min.js'
     },
     module: {
         loaders: [

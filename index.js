@@ -1,1 +1,1 @@
-module.exports = require('./smartstorage.js');
+module.exports = require('./lib/smartstorage.js');
