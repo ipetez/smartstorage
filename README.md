@@ -209,6 +209,20 @@ lstorage.setProperty('vehicle', 'model', 'civic', 3600); // updates the 'vehicle
 
 Extends the native `window.localStorage.clear()` method returning the total of items cleared.
 
+## Installation
+#### Via [Bower][http://bower.io/]
+```javascript
+$ bower install smartstorage
+```
+#### Via [NPM][https://www.npmjs.com/]
+```javascript
+$ npm install smartstorage
+```
+#### Or just link to it
+```javascript
+<script src='smartstorage.min.js'></script>
+```
+
 ## RequireJS
 
 You can use this library with [RequireJS](http://requirejs.org/):

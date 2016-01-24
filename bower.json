@@ -1,0 +1,21 @@
+{
+  "name": "smartstorage",
+  "main": "./lib/smartstorage.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ipeters90/smartstorage",
+  "keywords": [
+    "smartstorage",
+    "localstorage"
+  ],
+  "authors": [
+    "Ike Peters"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
