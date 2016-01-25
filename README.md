@@ -242,7 +242,7 @@ define(['SmartStorage'], function(SmartStorage) {
 
 
 ```javascript
-var lstorage = require('./local_storage');
+var lstorage = require('smartstorage');
 ```
 
 ## Running Tests
