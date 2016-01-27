@@ -2,6 +2,19 @@
 
 An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application, with built-in callback support. This library also includes support for older browsers that don't natively support the localStorage API.
 
+## Installation
+#### Via [Bower](http://bower.io/)
+```javascript
+$ bower install smartstorage
+```
+#### Via [NPM](https://www.npmjs.com/)
+```javascript
+$ npm install smartstorage
+```
+#### Link to the library
+```javascript
+<script src='smartstorage.min.js'></script>
+```
 
 ## SmartStorage constructor
 
@@ -213,37 +226,6 @@ lstorage.setProperty('vehicle', 'model', 'civic', 3600); // updates the 'vehicle
 
 Extends the native `window.localStorage.clear()` method returning the total of items cleared.
 
-## Installation
-#### Via [Bower](http://bower.io/)
-```javascript
-$ bower install smartstorage
-```
-#### Via [NPM](https://www.npmjs.com/)
-```javascript
-$ npm install smartstorage
-```
-#### Or just link to it
-```javascript
-<script src='smartstorage.min.js'></script>
-```
-
-## RequireJS
-
-You can use this library with [RequireJS](http://requirejs.org/):
-
-```javascript
-define(['SmartStorage'], function(SmartStorage) {
-    // As a callback:
-    SmartStorage.setItem('mykey', 'myvalue', console.log);
-});
-```
-
-## CommonJS
-
-
-```javascript
-var lstorage = require('smartstorage');
-```
 
 ## Running Tests
 ####Unit Tests
