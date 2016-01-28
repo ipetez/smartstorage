@@ -1,4 +1,5 @@
 # SmartStorage - Smarter `localstorage` API
+[![Build Status](https://travis-ci.org/ipeters90/smartstorage.svg?branch=master)](https://travis-ci.org/ipeters90/smartstorage)
 
 An HTML5 localStorage helper library that extends the native localStorage API through Javascript. It offers a more efficient and robust way of retrieving, setting and updating important information needed for your web application, with built-in callback support. This library also includes support for older browsers that don't natively support the localStorage API.
 
