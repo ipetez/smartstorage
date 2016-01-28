@@ -11,7 +11,7 @@ $ bower install smartstorage
 ```javascript
 $ npm install smartstorage
 ```
-#### Link to the library
+#### Extract and link to the library
 ```javascript
 <script src='smartstorage.min.js'></script>
 ```
