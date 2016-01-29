@@ -12,13 +12,17 @@
     "type": "git",
     "url": "https://github.com/ipeters90/smartstorage.git"
   },
-  "author": "",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/ipeters90/smartstorage/LICENSE-MIT"
-    }
+  "keywords": [
+    "smartstorage",
+    "localStorage",
+    "web",
+    "storage"
   ],
+  "author": {
+    "name": "Ike Peters",
+    "email": "ikedpeters21@gmail.com"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ipeters90/smartstorage/issues"
   },
